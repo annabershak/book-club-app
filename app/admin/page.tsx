@@ -45,16 +45,16 @@ export default function AdminPage() {
   if (!authed) {
     return (
       <div className="container">
-        <h1>Вход в админку</h1>
+        <h1>Admin login</h1>
         <form onSubmit={handleLogin}>
           <input
             type="password"
-            placeholder="Пароль"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {error && <p style={{ color: '#b23b3b' }}>{error}</p>}
-          <button type="submit">Войти</button>
+          {error && <p style={{ color: 'var(--danger)' }}>{error}</p>}
+          <button type="submit">Log in</button>
         </form>
       </div>
     );
@@ -62,15 +62,15 @@ export default function AdminPage() {
 
   return (
     <div className="container">
-      <h1>Админка</h1>
+      <h1>Admin</h1>
 
-      <h2 style={{ fontSize: 18, marginTop: 30 }}>Места по встречам</h2>
+      <h2>Seats per meetup</h2>
       <table>
         <thead>
           <tr>
-            <th>Книга</th>
-            <th>Дата</th>
-            <th>Занято / Всего</th>
+            <th>Book</th>
+            <th>Date</th>
+            <th>Taken / Total</th>
           </tr>
         </thead>
         <tbody>
@@ -89,15 +89,15 @@ export default function AdminPage() {
         </tbody>
       </table>
 
-      <h2 style={{ fontSize: 18, marginTop: 30 }}>Все записи</h2>
+      <h2>All registrations</h2>
       <table>
         <thead>
           <tr>
-            <th>Книга</th>
-            <th>Имя</th>
-            <th>Телефон</th>
-            <th>Статус</th>
-            <th>Когда</th>
+            <th>Book</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>When</th>
           </tr>
         </thead>
         <tbody>
@@ -106,8 +106,8 @@ export default function AdminPage() {
               <td>{bookTitle(r.book_id)}</td>
               <td>{r.name}</td>
               <td>{r.phone}</td>
-              <td>{r.status === 'paid' ? '✅ оплачено' : '⏳ ожидание'}</td>
-              <td>{new Date(r.created_at).toLocaleString('ru-RU')}</td>
+              <td>{r.status === 'paid' ? '✅ paid' : '⏳ pending'}</td>
+              <td>{new Date(r.created_at).toLocaleString('en-US')}</td>
             </tr>
           ))}
         </tbody>

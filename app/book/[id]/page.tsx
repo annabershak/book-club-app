@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr + 'T00:00:00');
-  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+  return d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 export default function BookPage() {
@@ -32,7 +32,7 @@ export default function BookPage() {
     e.preventDefault();
     setError('');
     if (!name.trim() || !phone.trim()) {
-      setError('Заполни имя и телефон');
+      setError('Please fill in your name and phone number');
       return;
     }
     setLoading(true);
@@ -44,13 +44,13 @@ export default function BookPage() {
       });
       const data = await res.json();
       if (data.url) {
-        window.location.href = data.url; // редирект на оплату Stripe
+        window.location.href = data.url; // redirect to Stripe checkout
       } else {
-        setError(data.error || 'Что-то пошло не так, попробуй ещё раз');
+        setError(data.error || 'Something went wrong, please try again');
         setLoading(false);
       }
     } catch (err) {
-      setError('Ошибка сети, попробуй ещё раз');
+      setError('Network error, please try again');
       setLoading(false);
     }
   }
@@ -58,7 +58,7 @@ export default function BookPage() {
   if (!book) {
     return (
       <div className="container">
-        <p>Загрузка...</p>
+        <p className="empty">Loading...</p>
       </div>
     );
   }
@@ -67,29 +67,31 @@ export default function BookPage() {
 
   return (
     <div className="container">
-      <a href="/" className="back-link">&larr; Ко всем встречам</a>
+      <a href="/" className="back-link">&larr; All meetups</a>
       <h1>{book.title}</h1>
-      <div className="book-date">{formatDate(book.event_date)}</div>
-      {book.description && <p className="book-desc">{book.description}</p>}
-      <p className={`spots ${full ? 'full' : ''}`}>
-        {full ? 'Мест нет' : `Осталось мест: ${spotsLeft} из ${book.capacity}`}
+      <div className="book-date" style={{ marginBottom: 16 }}>{formatDate(book.event_date)}</div>
+      {book.description && <p className="book-desc" style={{ fontSize: 15, marginBottom: 16 }}>{book.description}</p>}
+      <p className={`spots ${full ? 'full' : ''}`} style={{ textAlign: 'left' }}>
+        {full ? 'Full' : `${spotsLeft} / ${book.capacity} seats left`}
       </p>
 
       {full ? (
-        <p>К сожалению, места на эту встречу закончились.</p>
+        <p style={{ color: 'var(--muted)', fontSize: 14 }}>
+          Sorry, this meetup is fully booked.
+        </p>
       ) : (
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Имя</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Как тебя зовут" />
+            <label>Name</label>
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
           </div>
           <div>
-            <label>Номер телефона (привязанный к Instagram)</label>
+            <label>Phone number (the one linked to your Instagram)</label>
             <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+49 ..." />
           </div>
-          {error && <p style={{ color: '#b23b3b', fontSize: 14 }}>{error}</p>}
+          {error && <p style={{ color: 'var(--danger)', fontSize: 13 }}>{error}</p>}
           <button type="submit" disabled={loading}>
-            {loading ? 'Переход к оплате...' : `Записаться и оплатить ${(book.price_cents / 100).toFixed(2)} €`}
+            {loading ? 'Redirecting to payment...' : `Reserve a seat — ${(book.price_cents / 100).toFixed(2)} €`}
           </button>
         </form>
       )}

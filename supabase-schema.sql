@@ -32,8 +32,8 @@ create policy "books are readable by everyone"
 -- registrations не читаются напрямую с фронта (только через service role в API),
 -- поэтому политик на select не даём анонимному ключу.
 
--- Пример добавления книг (замени даты/названия под себя)
+-- Sample meetups (edit dates/titles as needed)
 insert into books (title, event_date, description, capacity, price_cents) values
-  ('Ольга', '2026-07-26', 'Обсуждаем роман "Ольга"', 15, 500),
-  ('Белые ночи', '2026-08-22', 'Достоевский, "Белые ночи"', 15, 500),
-  ('Мемуары гейши', '2026-09-12', 'Артур Голден, "Мемуары гейши"', 15, 500);
+  ('Drive Your Plow Over the Bones of the Dead', '2026-07-26', 'Novel by Olga Tokarczuk', 15, 500),
+  ('White Nights', '2026-08-22', 'Short story by Fyodor Dostoevsky', 15, 500),
+  ('Memoirs of a Geisha', '2026-09-12', 'Novel by Arthur Golden', 15, 500);
