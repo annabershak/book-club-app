@@ -93,6 +93,10 @@ export default function BookPage() {
           <button type="submit" disabled={loading}>
             {loading ? 'Redirecting to payment...' : `Reserve a seat — ${(book.price_cents / 100).toFixed(2)} €`}
           </button>
+          <p className="fee-note">
+            We ask for a small deposit to make sure everyone who signs up actually shows up.
+            It goes straight toward snacks and drinks at the meetup — see you there!
+          </p>
         </form>
       )}
     </div>

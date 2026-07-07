@@ -34,6 +34,6 @@ create policy "books are readable by everyone"
 
 -- Sample meetups (edit dates/titles as needed)
 insert into books (title, event_date, description, capacity, price_cents) values
-  ('Drive Your Plow Over the Bones of the Dead', '2026-07-26', 'Novel by Olga Tokarczuk', 15, 500),
-  ('White Nights', '2026-08-22', 'Short story by Fyodor Dostoevsky', 15, 500),
-  ('Memoirs of a Geisha', '2026-09-12', 'Novel by Arthur Golden', 15, 500);
+  ('Drive Your Plow Over the Bones of the Dead', '2026-07-26', 'Novel by Olga Tokarczuk', 10, 500),
+  ('White Nights', '2026-08-22', 'Short story by Fyodor Dostoevsky', 10, 500),
+  ('Memoirs of a Geisha', '2026-09-12', 'Novel by Arthur Golden', 10, 500);
