@@ -68,6 +68,9 @@ export default function BookPage() {
   return (
     <div className="container">
       <a href="/" className="back-link">&larr; All meetups</a>
+      {book.cover_url && (
+        <img className="detail-cover" src={book.cover_url} alt="" />
+      )}
       <h1>{book.title}</h1>
       <div className="book-date" style={{ marginBottom: 16 }}>{formatDate(book.event_date)}</div>
       {book.description && <p className="book-desc" style={{ fontSize: 15, marginBottom: 16 }}>{book.description}</p>}
@@ -96,6 +99,9 @@ export default function BookPage() {
           <p className="fee-note">
             We ask for a small deposit to make sure everyone who signs up actually shows up.
             It goes straight toward snacks and drinks at the meetup — see you there!
+          </p>
+          <p className="fee-note">
+            Once you've reserved your seat, we'll message you with the exact spot — thanks for joining us!
           </p>
         </form>
       )}

@@ -33,7 +33,7 @@ create policy "books are readable by everyone"
 -- поэтому политик на select не даём анонимному ключу.
 
 -- Sample meetups (edit dates/titles as needed)
-insert into books (title, event_date, description, capacity, price_cents) values
-  ('Drive Your Plow Over the Bones of the Dead', '2026-07-26', 'Novel by Olga Tokarczuk', 10, 500),
-  ('White Nights', '2026-08-22', 'Short story by Fyodor Dostoevsky', 10, 500),
-  ('Memoirs of a Geisha', '2026-09-12', 'Novel by Arthur Golden', 10, 500);
+insert into books (title, event_date, description, capacity, price_cents, cover_url) values
+  ('Drive Your Plow Over the Bones of the Dead', '2026-07-26', 'Novel by Olga Tokarczuk', 10, 500, 'https://covers.openlibrary.org/b/id/8742783-L.jpg'),
+  ('White Nights', '2026-08-22', 'Novel by Fyodor Dostoevsky', 10, 500, 'https://covers.openlibrary.org/b/id/14598226-L.jpg'),
+  ('Memoirs of a Geisha', '2026-09-12', 'Novel by Arthur Golden', 10, 500, 'https://covers.openlibrary.org/b/id/8231782-L.jpg');

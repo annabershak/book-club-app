@@ -8,7 +8,7 @@ where event_date = '2026-07-26';
 
 update books set
   title = 'White Nights',
-  description = 'Short story by Fyodor Dostoevsky'
+  description = 'Novel by Fyodor Dostoevsky'
 where event_date = '2026-08-22';
 
 update books set
