@@ -34,7 +34,7 @@ export default function AdminPage() {
     if (res.ok) {
       loadData();
     } else {
-      setError('Неверный пароль');
+      setError('Wrong password');
     }
   }
 

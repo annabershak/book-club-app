@@ -7,6 +7,7 @@
   --danger: #9a3b3b;
   --ok: #3b7a52;
   --yellow: #e8b923;
+  --yellow-dark: #c99c12;
 }
 
 * { box-sizing: border-box; }
@@ -93,6 +94,7 @@ h1 {
 
 .card:hover .book-title {
   text-decoration: underline;
+  text-decoration-color: var(--yellow);
   text-underline-offset: 4px;
 }
 
@@ -103,7 +105,8 @@ h1 {
 
 .book-index {
   font-size: 12px;
-  color: var(--muted);
+  color: var(--yellow);
+  font-weight: 700;
   padding-top: 3px;
 }
 
@@ -184,9 +187,9 @@ form {
   font-size: 13px;
   line-height: 1.6;
   max-width: 420px;
-  border-top: 1px solid var(--line);
-  padding-top: 16px;
-  margin-top: 8px;
+  border-left: 2px solid var(--yellow);
+  padding: 2px 0 2px 14px;
+  margin-top: 16px;
 }
 
 label {
@@ -211,25 +214,27 @@ input {
 
 input:focus {
   outline: none;
-  border-color: var(--ink);
+  border-color: var(--yellow);
 }
 
 button {
   padding: 14px;
   border-radius: 0;
-  border: 1px solid var(--ink);
-  background: var(--ink);
-  color: var(--bg);
+  border: 1px solid var(--yellow);
+  background: var(--yellow);
+  color: var(--ink);
   font-size: 13px;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
   font-family: inherit;
-  transition: opacity 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 button:hover {
-  opacity: 0.85;
+  background: var(--yellow-dark);
+  border-color: var(--yellow-dark);
 }
 
 button:disabled {
@@ -248,7 +253,7 @@ button:disabled {
 }
 
 .back-link:hover {
-  color: var(--ink);
+  color: var(--yellow-dark);
 }
 
 table {

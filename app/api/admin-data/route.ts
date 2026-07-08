@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 export async function GET(req: NextRequest) {
   const cookie = req.cookies.get('admin_auth')?.value;
   if (!cookie || cookie !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: 'Не авторизован' }, { status: 401 });
+    return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
   }
 
   const { data: books } = await supabaseAdmin

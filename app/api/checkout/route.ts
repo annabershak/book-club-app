@@ -16,7 +16,7 @@ async function getSpotsLeft(bookId: string, capacity: number) {
 // GET /api/checkout?book_id=... -> данные книги + сколько мест осталось
 export async function GET(req: NextRequest) {
   const bookId = req.nextUrl.searchParams.get('book_id');
-  if (!bookId) return NextResponse.json({ error: 'book_id обязателен' }, { status: 400 });
+  if (!bookId) return NextResponse.json({ error: 'book_id is required' }, { status: 400 });
 
   const { data: book, error } = await supabaseAdmin
     .from('books')
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
     .eq('id', bookId)
     .single();
 
-  if (error || !book) return NextResponse.json({ error: 'Книга не найдена' }, { status: 404 });
+  if (error || !book) return NextResponse.json({ error: 'Book not found' }, { status: 404 });
 
   const spotsLeft = await getSpotsLeft(bookId, book.capacity);
   return NextResponse.json({ book, spotsLeft });
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   const { book_id, name, phone } = await req.json();
 
   if (!book_id || !name || !phone) {
-    return NextResponse.json({ error: 'Все поля обязательны' }, { status: 400 });
+    return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
   }
 
   const { data: book, error: bookError } = await supabaseAdmin
@@ -45,12 +45,12 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (bookError || !book) {
-    return NextResponse.json({ error: 'Книга не найдена' }, { status: 404 });
+    return NextResponse.json({ error: 'Book not found' }, { status: 404 });
   }
 
   const spotsLeft = await getSpotsLeft(book_id, book.capacity);
   if (spotsLeft <= 0) {
-    return NextResponse.json({ error: 'Места закончились' }, { status: 400 });
+    return NextResponse.json({ error: 'No seats left' }, { status: 400 });
   }
 
   // Создаём "ожидающую оплаты" запись
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (regError || !registration) {
-    return NextResponse.json({ error: 'Не удалось создать запись' }, { status: 500 });
+    return NextResponse.json({ error: 'Could not create registration' }, { status: 500 });
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
         price_data: {
           currency: 'eur',
           unit_amount: book.price_cents,
-          product_data: { name: `Книжный клуб: ${book.title}` },
+          product_data: { name: `notfrommunich bookclub — ${book.title}` },
         },
         quantity: 1,
       },
