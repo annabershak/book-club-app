@@ -16,6 +16,7 @@ export default function BookPage() {
   const [spotsLeft, setSpotsLeft] = useState<number | null>(null);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -31,8 +32,8 @@ export default function BookPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
-    if (!name.trim() || !phone.trim()) {
-      setError('Please fill in your name and phone number');
+    if (!name.trim() || !phone.trim() || !email.trim()) {
+      setError('Please fill in your name, phone number and email');
       return;
     }
     const cleanedPhone = phone.trim().replace(/[\s-]/g, '');
@@ -40,12 +41,16 @@ export default function BookPage() {
       setError('Please include your country code, e.g. +1 234 567 8900');
       return;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError('Please enter a valid email address');
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ book_id: id, name, phone }),
+        body: JSON.stringify({ book_id: id, name, phone, email }),
       });
       const data = await res.json();
       if (data.url) {
@@ -92,6 +97,15 @@ export default function BookPage() {
           <div>
             <label>Name</label>
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+          </div>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+            />
           </div>
           <div>
             <label>Phone number (the one linked to your WhatsApp)</label>

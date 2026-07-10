@@ -32,9 +32,9 @@ export async function GET(req: NextRequest) {
 
 // POST /api/checkout -> создаёт pending-регистрацию и Stripe checkout сессию
 export async function POST(req: NextRequest) {
-  const { book_id, name, phone } = await req.json();
+  const { book_id, name, phone, email } = await req.json();
 
-  if (!book_id || !name || !phone) {
+  if (!book_id || !name || !phone || !email) {
     return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
   }
 
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
   // Создаём "ожидающую оплаты" запись
   const { data: registration, error: regError } = await supabaseAdmin
     .from('registrations')
-    .insert({ book_id, name, phone, status: 'pending' })
+    .insert({ book_id, name, phone, email, status: 'pending' })
     .select()
     .single();
 

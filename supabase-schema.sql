@@ -16,6 +16,7 @@ create table registrations (
   book_id uuid references books(id) not null,
   name text not null,
   phone text not null,
+  email text not null,
   status text not null default 'pending', -- pending | paid
   stripe_session_id text,
   created_at timestamptz default now()

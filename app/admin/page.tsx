@@ -95,6 +95,7 @@ export default function AdminPage() {
           <tr>
             <th>Book</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Phone</th>
             <th>Status</th>
             <th>When</th>
@@ -105,6 +106,7 @@ export default function AdminPage() {
             <tr key={r.id}>
               <td>{bookTitle(r.book_id)}</td>
               <td>{r.name}</td>
+              <td>{r.email}</td>
               <td>{r.phone}</td>
               <td>{r.status === 'paid' ? '✅ paid' : '⏳ pending'}</td>
               <td>{new Date(r.created_at).toLocaleString('en-US')}</td>
