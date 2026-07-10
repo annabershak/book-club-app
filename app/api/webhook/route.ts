@@ -22,7 +22,7 @@ async function sendConfirmationEmail(registration: any, book: any) {
     <p>See you soon!<br>notfrommunich bookclub</p>
   `;
 
-  await fetch('https://api.resend.com/emails', {
+  const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
@@ -35,6 +35,11 @@ async function sendConfirmationEmail(registration: any, book: any) {
       html,
     }),
   });
+
+  if (!res.ok) {
+    const errorBody = await res.text();
+    throw new Error(`Resend API error ${res.status}: ${errorBody}`);
+  }
 }
 
 export async function POST(req: NextRequest) {
