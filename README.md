@@ -59,21 +59,25 @@
    это `STRIPE_WEBHOOK_SECRET`. Добавь его в Environment Variables в Vercel
    и сделай Redeploy.
 
-## Шаг 5. Email-подтверждения (Resend)
+## Шаг 5. Email-подтверждения (Gmail)
 
 После оплаты сайт отправляет письмо с датой встречи, книгой и ссылкой на
-WhatsApp-группу.
+WhatsApp-группу — через твою личную почту Gmail по SMTP (бесплатно, без
+своего домена; лимит 500 писем/день, книжному клубу более чем достаточно).
 
-1. Зайди на https://resend.com, зарегистрируйся.
-2. **API Keys → Create API Key** → скопируй значение (`re_...`) →
-   это `RESEND_API_KEY`.
-3. Без подключения своего домена письма уходят с адреса
-   `onboarding@resend.dev` — этого достаточно для старта, менять
-   `RESEND_FROM_EMAIL` не обязательно.
-4. `WHATSAPP_GROUP_URL` — ссылка-приглашение в группу клуба (Group info →
+1. Зайди на https://myaccount.google.com/security → включи
+   **2-Step Verification** (если ещё не включена — без неё App Passwords
+   не работают).
+2. Там же найди **App passwords** (может быть по прямой ссылке
+   https://myaccount.google.com/apppasswords) → создай новый, назови
+   например `book club site`.
+3. Google покажет 16-значный код вида `abcd efgh ijkl mnop` — это
+   `GMAIL_APP_PASSWORD` (не путать с обычным паролем от почты).
+4. `GMAIL_USER` — сама почта Gmail, с которой будут уходить письма.
+5. `WHATSAPP_GROUP_URL` — ссылка-приглашение в группу клуба (Group info →
    Invite to group via link в WhatsApp).
-5. Добавь `RESEND_API_KEY`, `RESEND_FROM_EMAIL` (если меняла) и
-   `WHATSAPP_GROUP_URL` в Environment Variables в Vercel, сделай Redeploy.
+6. Добавь `GMAIL_USER`, `GMAIL_APP_PASSWORD` и `WHATSAPP_GROUP_URL`
+   в Environment Variables в Vercel, сделай Redeploy.
 
 ## Шаг 6. Проверка
 

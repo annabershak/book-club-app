@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import nodemailer from 'nodemailer';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+const mailer = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr + 'T00:00:00');
@@ -22,24 +31,12 @@ async function sendConfirmationEmail(registration: any, book: any) {
     <p>See you soon!<br>notfrommunich bookclub</p>
   `;
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: process.env.RESEND_FROM_EMAIL || 'notfrommunich bookclub <onboarding@resend.dev>',
-      to: registration.email,
-      subject: `You're in — ${book.title}`,
-      html,
-    }),
+  await mailer.sendMail({
+    from: `"notfrommunich bookclub" <${process.env.GMAIL_USER}>`,
+    to: registration.email,
+    subject: `You're in — ${book.title}`,
+    html,
   });
-
-  if (!res.ok) {
-    const errorBody = await res.text();
-    throw new Error(`Resend API error ${res.status}: ${errorBody}`);
-  }
 }
 
 export async function POST(req: NextRequest) {
