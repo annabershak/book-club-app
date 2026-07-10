@@ -125,7 +125,7 @@ export default function BookPage() {
             It goes straight toward snacks and drinks at the meetup — see you there!
           </p>
           <p className="fee-note">
-            Once you've reserved your seat, we'll message you with the exact spot — thanks for joining us!
+            Once you've reserved your seat, you'll get a confirmation email with all the details — thanks for joining us!
           </p>
         </form>
       )}
