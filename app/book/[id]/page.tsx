@@ -89,7 +89,7 @@ export default function BookPage() {
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
           </div>
           <div>
-            <label>Phone number (the one linked to your Instagram)</label>
+            <label>Phone number (the one linked to your WhatsApp)</label>
             <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+49 ..." />
           </div>
           {error && <p style={{ color: 'var(--danger)', fontSize: 13 }}>{error}</p>}
