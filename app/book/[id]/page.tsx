@@ -35,6 +35,11 @@ export default function BookPage() {
       setError('Please fill in your name and phone number');
       return;
     }
+    const cleanedPhone = phone.trim().replace(/[\s-]/g, '');
+    if (!/^\+\d{7,15}$/.test(cleanedPhone)) {
+      setError('Please include your country code, e.g. +1 234 567 8900');
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch('/api/checkout', {
@@ -90,7 +95,12 @@ export default function BookPage() {
           </div>
           <div>
             <label>Phone number (the one linked to your WhatsApp)</label>
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+49 ..." />
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+1 234 567 8900"
+            />
           </div>
           {error && <p style={{ color: 'var(--danger)', fontSize: 13 }}>{error}</p>}
           <button type="submit" disabled={loading}>
