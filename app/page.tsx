@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import Link from 'next/link';
 
 export const revalidate = 0; // always fresh seat counts
@@ -11,7 +11,7 @@ function formatDate(dateStr: string) {
 }
 
 export default async function HomePage() {
-  const { data: books } = await supabase
+  const { data: books } = await supabaseAdmin
     .from('books')
     .select('id, title, event_date, description, capacity, cover_url')
     .order('event_date', { ascending: true });
@@ -19,7 +19,7 @@ export default async function HomePage() {
   // Count paid registrations for each book
   const booksWithSpots = await Promise.all(
     (books || []).map(async (book) => {
-      const { count } = await supabase
+      const { count } = await supabaseAdmin
         .from('registrations')
         .select('id', { count: 'exact', head: true })
         .eq('book_id', book.id)
