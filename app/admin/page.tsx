@@ -8,6 +8,8 @@ export default function AdminPage() {
   const [error, setError] = useState('');
   const [books, setBooks] = useState<any[]>([]);
   const [registrations, setRegistrations] = useState<any[]>([]);
+  const [resending, setResending] = useState<string | null>(null);
+  const [resendResult, setResendResult] = useState<{ id: string; ok: boolean } | null>(null);
 
   async function loadData() {
     const res = await fetch('/api/admin-data');
@@ -40,6 +42,18 @@ export default function AdminPage() {
 
   function bookTitle(bookId: string) {
     return books.find((b) => b.id === bookId)?.title || '—';
+  }
+
+  async function handleResend(registrationId: string) {
+    setResending(registrationId);
+    setResendResult(null);
+    const res = await fetch('/api/admin-resend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ registration_id: registrationId }),
+    });
+    setResending(null);
+    setResendResult({ id: registrationId, ok: res.ok });
   }
 
   if (!authed) {
@@ -99,6 +113,7 @@ export default function AdminPage() {
             <th>Phone</th>
             <th>Status</th>
             <th>When</th>
+            <th>Email confirmation</th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +125,23 @@ export default function AdminPage() {
               <td>{r.phone}</td>
               <td>{r.status === 'paid' ? '✅ paid' : '⏳ pending'}</td>
               <td>{new Date(r.created_at).toLocaleString('en-US')}</td>
+              <td>
+                {r.status === 'paid' && (
+                  <button
+                    type="button"
+                    style={{ padding: '6px 10px', fontSize: 11 }}
+                    disabled={resending === r.id}
+                    onClick={() => handleResend(r.id)}
+                  >
+                    {resending === r.id ? 'Sending...' : 'Resend'}
+                  </button>
+                )}
+                {resendResult?.id === r.id && (
+                  <span style={{ marginLeft: 8, fontSize: 12, color: resendResult.ok ? 'var(--ok)' : 'var(--danger)' }}>
+                    {resendResult.ok ? 'Sent' : 'Failed'}
+                  </span>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
