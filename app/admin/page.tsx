@@ -10,6 +10,8 @@ export default function AdminPage() {
   const [registrations, setRegistrations] = useState<any[]>([]);
   const [resending, setResending] = useState<string | null>(null);
   const [resendResult, setResendResult] = useState<{ id: string; ok: boolean } | null>(null);
+  const [announcing, setAnnouncing] = useState(false);
+  const [announceResult, setAnnounceResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
 
   async function loadData() {
     const res = await fetch('/api/admin-data');
@@ -56,6 +58,15 @@ export default function AdminPage() {
     setResendResult({ id: registrationId, ok: res.ok });
   }
 
+  async function handleAnnounce() {
+    setAnnouncing(true);
+    setAnnounceResult(null);
+    const res = await fetch('/api/admin-announce', { method: 'POST' });
+    const data = await res.json();
+    setAnnouncing(false);
+    setAnnounceResult(res.ok ? data : data.error || 'Failed to send');
+  }
+
   if (!authed) {
     return (
       <div className="container">
@@ -77,6 +88,18 @@ export default function AdminPage() {
   return (
     <div className="container">
       <h1>Admin</h1>
+
+      <h2>One-off: Tokarczuk venue announcement</h2>
+      <button type="button" disabled={announcing} onClick={handleAnnounce}>
+        {announcing ? 'Sending...' : 'Send Tokarczuk announcement'}
+      </button>
+      {announceResult && (
+        <p style={{ fontSize: 13, marginTop: 12 }}>
+          {typeof announceResult === 'string'
+            ? announceResult
+            : `Sent: ${announceResult.sent}${announceResult.failed.length ? `, failed: ${announceResult.failed.join(', ')}` : ''}`}
+        </p>
+      )}
 
       <h2>Seats per meetup</h2>
       <table>

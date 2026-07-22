@@ -33,3 +33,34 @@ export async function sendConfirmationEmail(registration: any, book: any) {
     html,
   });
 }
+
+export async function sendAnnouncementEmail(
+  registration: any,
+  book: any,
+  details: { date: string; time: string; venue: string; address: string; mapUrl: string }
+) {
+  const html = `
+    <div style="font-family: Georgia, 'Times New Roman', serif; color: #111; line-height: 1.6;">
+      <p>Hi ${registration.name},</p>
+      <p>Everything's set for our next meetup — here's where to find us:</p>
+      <p style="margin: 24px 0; padding: 16px 20px; border-left: 3px solid #e8b923; background: #faf7f0;">
+        <strong>${book.title}</strong><br>
+        ${book.description ? `${book.description}<br>` : ''}
+        <br>
+        <strong>Date:</strong> ${details.date}<br>
+        <strong>Time:</strong> ${details.time}<br>
+        <strong>Location:</strong> ${details.venue} — ${details.address}<br>
+        <a href="${details.mapUrl}">Open in Google Maps</a>
+      </p>
+      <p>Bring your thoughts on the book — and your appetite. Can't wait to see you there!</p>
+      <p>— notfrommunich bookclub</p>
+    </div>
+  `;
+
+  await mailer.sendMail({
+    from: `"notfrommunich bookclub" <${process.env.GMAIL_USER}>`,
+    to: registration.email,
+    subject: `Meetup details — ${book.title}`,
+    html,
+  });
+}
