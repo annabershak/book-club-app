@@ -84,6 +84,16 @@ h1 {
   margin: 0 0 16px;
 }
 
+.section-title {
+  font-family: var(--font-display), cursive;
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--ink);
+  margin: 56px 0 16px;
+}
+
 .subtitle {
   color: var(--accent);
   font-weight: 600;

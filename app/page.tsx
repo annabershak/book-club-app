@@ -79,7 +79,7 @@ export default async function HomePage() {
 
       {past.length > 0 && (
         <>
-          <h2>Past events</h2>
+          <h2 className="section-title">Past events</h2>
           <div className="past-grid">
             {past.map((book) => (
               <div key={book.id} className="past-card">
