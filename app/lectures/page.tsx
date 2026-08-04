@@ -1,6 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import Link from 'next/link';
-import NavTabs from './components/NavTabs';
+import NavTabs from '../components/NavTabs';
 
 export const revalidate = 0; // always fresh seat counts
 
@@ -11,22 +11,22 @@ function formatDate(dateStr: string) {
     .toUpperCase();
 }
 
-export default async function HomePage() {
-  const { data: books } = await supabaseAdmin
-    .from('books')
+export default async function LecturesPage() {
+  const { data: lectures } = await supabaseAdmin
+    .from('lectures')
     .select('id, title, event_date, description, capacity, cover_url')
     .order('event_date', { ascending: true });
 
-  // Count paid registrations for each book
-  const booksWithSpots = await Promise.all(
-    (books || []).map(async (book) => {
+  // Count paid registrations for each lecture
+  const lecturesWithSpots = await Promise.all(
+    (lectures || []).map(async (lecture) => {
       const { count } = await supabaseAdmin
         .from('registrations')
         .select('id', { count: 'exact', head: true })
-        .eq('book_id', book.id)
+        .eq('lecture_id', lecture.id)
         .eq('status', 'paid');
       const taken = count || 0;
-      return { ...book, spotsLeft: book.capacity - taken };
+      return { ...lecture, spotsLeft: lecture.capacity - taken };
     })
   );
 
@@ -39,40 +39,40 @@ export default async function HomePage() {
         <NavTabs />
       </header>
 
-      <h1>Upcoming meetups</h1>
+      <h1>Upcoming lectures</h1>
       <p className="subtitle">
-        A small, informal book club. Pick a book below to reserve your seat.
+        Short evening lectures, open to everyone. Pick one below to reserve your seat.
       </p>
 
       <div className="book-list">
-        {booksWithSpots.map((book, i) => {
-          const full = book.spotsLeft <= 0;
-          const low = book.spotsLeft > 0 && book.spotsLeft <= 3;
+        {lecturesWithSpots.map((lecture, i) => {
+          const full = lecture.spotsLeft <= 0;
+          const low = lecture.spotsLeft > 0 && lecture.spotsLeft <= 3;
           return (
             <Link
-              key={book.id}
-              href={full ? '#' : `/book/${book.id}`}
+              key={lecture.id}
+              href={full ? '#' : `/lecture/${lecture.id}`}
               className={`card ${full ? 'disabled' : ''}`}
             >
               <div className="book-index">{String(i + 1).padStart(2, '0')}</div>
               <div className="book-cover">
-                {book.cover_url && <img src={book.cover_url} alt="" />}
+                {lecture.cover_url && <img src={lecture.cover_url} alt="" />}
               </div>
               <div>
-                <div className="book-date">{formatDate(book.event_date)}</div>
-                <div className="book-title">{book.title}</div>
-                {book.description && <div className="book-desc">{book.description}</div>}
+                <div className="book-date">{formatDate(lecture.event_date)}</div>
+                <div className="book-title">{lecture.title}</div>
+                {lecture.description && <div className="book-desc">{lecture.description}</div>}
               </div>
               <div className={`spots ${full ? 'full' : low ? 'low' : 'ok'}`}>
-                {full ? 'Full' : `${book.spotsLeft} / ${book.capacity} left`}
+                {full ? 'Full' : `${lecture.spotsLeft} / ${lecture.capacity} left`}
               </div>
             </Link>
           );
         })}
       </div>
 
-      {booksWithSpots.length === 0 && (
-        <p className="empty">No meetups scheduled yet.</p>
+      {lecturesWithSpots.length === 0 && (
+        <p className="empty">No lectures scheduled yet.</p>
       )}
     </div>
   );

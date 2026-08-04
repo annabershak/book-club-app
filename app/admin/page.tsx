@@ -7,6 +7,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [error, setError] = useState('');
   const [books, setBooks] = useState<any[]>([]);
+  const [lectures, setLectures] = useState<any[]>([]);
   const [registrations, setRegistrations] = useState<any[]>([]);
   const [resending, setResending] = useState<string | null>(null);
   const [resendResult, setResendResult] = useState<{ id: string; ok: boolean } | null>(null);
@@ -18,6 +19,7 @@ export default function AdminPage() {
     if (res.ok) {
       const data = await res.json();
       setBooks(data.books || []);
+      setLectures(data.lectures || []);
       setRegistrations(data.registrations || []);
       setAuthed(true);
     }
@@ -42,8 +44,11 @@ export default function AdminPage() {
     }
   }
 
-  function bookTitle(bookId: string) {
-    return books.find((b) => b.id === bookId)?.title || '—';
+  function eventTitle(registration: any) {
+    if (registration.lecture_id) {
+      return lectures.find((l) => l.id === registration.lecture_id)?.title || '—';
+    }
+    return books.find((b) => b.id === registration.book_id)?.title || '—';
   }
 
   async function handleResend(registrationId: string) {
@@ -126,11 +131,37 @@ export default function AdminPage() {
         </tbody>
       </table>
 
+      <h2>Seats per lecture</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Lecture</th>
+            <th>Date</th>
+            <th>Taken / Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {lectures.map((l) => {
+            const paidCount = registrations.filter(
+              (r) => r.lecture_id === l.id && r.status === 'paid'
+            ).length;
+            return (
+              <tr key={l.id}>
+                <td>{l.title}</td>
+                <td>{l.event_date}</td>
+                <td>{paidCount} / {l.capacity}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+
       <h2>All registrations</h2>
       <table>
         <thead>
           <tr>
-            <th>Book</th>
+            <th>Type</th>
+            <th>Book / Lecture</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
@@ -142,7 +173,8 @@ export default function AdminPage() {
         <tbody>
           {registrations.map((r) => (
             <tr key={r.id}>
-              <td>{bookTitle(r.book_id)}</td>
+              <td>{r.lecture_id ? 'Lecture' : 'Book'}</td>
+              <td>{eventTitle(r)}</td>
               <td>{r.name}</td>
               <td>{r.email}</td>
               <td>{r.phone}</td>

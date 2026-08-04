@@ -23,18 +23,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Registration not found' }, { status: 404 });
   }
 
-  const { data: book, error: bookError } = await supabaseAdmin
-    .from('books')
+  const table = registration.lecture_id ? 'lectures' : 'books';
+  const eventId = registration.lecture_id || registration.book_id;
+  const { data: event, error: eventError } = await supabaseAdmin
+    .from(table)
     .select('title, event_date, description')
-    .eq('id', registration.book_id)
+    .eq('id', eventId)
     .single();
 
-  if (bookError || !book) {
-    return NextResponse.json({ error: 'Book not found' }, { status: 404 });
+  if (eventError || !event) {
+    return NextResponse.json({ error: 'Book or lecture not found' }, { status: 404 });
   }
 
   try {
-    await sendConfirmationEmail(registration, book);
+    await sendConfirmationEmail(registration, event);
   } catch (err: any) {
     return NextResponse.json({ error: `Failed to send email: ${err.message}` }, { status: 500 });
   }

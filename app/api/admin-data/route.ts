@@ -12,10 +12,15 @@ export async function GET(req: NextRequest) {
     .select('*')
     .order('event_date', { ascending: true });
 
+  const { data: lectures } = await supabaseAdmin
+    .from('lectures')
+    .select('*')
+    .order('event_date', { ascending: true });
+
   const { data: registrations } = await supabaseAdmin
     .from('registrations')
     .select('*')
     .order('created_at', { ascending: false });
 
-  return NextResponse.json({ books, registrations });
+  return NextResponse.json({ books, lectures, registrations });
 }

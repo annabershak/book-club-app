@@ -1,13 +1,12 @@
 :root {
-  --bg: #fafafa;
-  --ink: #111111;
-  --muted: #7a7a7a;
-  --line: #e2e2e2;
-  --card: #ffffff;
-  --danger: #9a3b3b;
+  --bg: #fceca9;
+  --ink: #7b1c1a;
+  --ink-dark: #5c1210;
+  --muted: #a8564a;
+  --line: #e8c98f;
+  --card: #fff6d6;
+  --danger: #5c1210;
   --ok: #3b7a52;
-  --yellow: #e8b923;
-  --yellow-dark: #c99c12;
 }
 
 * { box-sizing: border-box; }
@@ -20,7 +19,7 @@ html, body {
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-mono), 'SF Mono', Menlo, monospace;
+  font-family: var(--font-display), 'Comic Sans MS', cursive, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
@@ -33,9 +32,37 @@ body {
 
 .site-header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
   margin-bottom: 72px;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-tab {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-tab:hover {
+  color: var(--ink);
+}
+
+.nav-tab.active {
+  color: var(--ink);
+  border-color: var(--ink);
 }
 
 .wordmark {
@@ -43,11 +70,11 @@ body {
   font-weight: 700;
   letter-spacing: 0.02em;
   text-decoration: none;
-  color: var(--yellow);
+  color: var(--ink);
 }
 
 .wordmark span {
-  color: var(--yellow);
+  color: var(--ink);
   opacity: 0.65;
   font-weight: 400;
 }
@@ -94,7 +121,7 @@ h1 {
 
 .card:hover .book-title {
   text-decoration: underline;
-  text-decoration-color: var(--yellow);
+  text-decoration-color: var(--ink);
   text-underline-offset: 4px;
 }
 
@@ -105,7 +132,7 @@ h1 {
 
 .book-index {
   font-size: 12px;
-  color: var(--yellow);
+  color: var(--ink);
   font-weight: 700;
   padding-top: 3px;
 }
@@ -187,7 +214,7 @@ form {
   font-size: 13px;
   line-height: 1.6;
   max-width: 420px;
-  border-left: 2px solid var(--yellow);
+  border-left: 2px solid var(--ink);
   padding: 2px 0 2px 14px;
   margin-top: 16px;
 }
@@ -214,15 +241,15 @@ input {
 
 input:focus {
   outline: none;
-  border-color: var(--yellow);
+  border-color: var(--ink);
 }
 
 button {
   padding: 14px;
   border-radius: 0;
-  border: 1px solid var(--yellow);
-  background: var(--yellow);
-  color: var(--ink);
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -233,8 +260,8 @@ button {
 }
 
 button:hover {
-  background: var(--yellow-dark);
-  border-color: var(--yellow-dark);
+  background: var(--ink-dark);
+  border-color: var(--ink-dark);
 }
 
 button:disabled {
@@ -253,7 +280,7 @@ button:disabled {
 }
 
 .back-link:hover {
-  color: var(--yellow-dark);
+  color: var(--ink-dark);
 }
 
 table {

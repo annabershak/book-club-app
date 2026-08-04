@@ -1,10 +1,9 @@
 import './globals.css';
-import { JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-mono',
+const display = localFont({
+  src: './fonts/CactusJack.ttf',
+  variable: '--font-display',
 });
 
 export const metadata = {
@@ -14,7 +13,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={mono.variable}>
+    <html lang="en" className={display.variable}>
       <body>{children}</body>
     </html>
   );

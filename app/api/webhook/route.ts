@@ -28,15 +28,17 @@ export async function POST(req: NextRequest) {
         .single();
 
       if (registration) {
-        const { data: book } = await supabaseAdmin
-          .from('books')
+        const table = registration.lecture_id ? 'lectures' : 'books';
+        const eventId = registration.lecture_id || registration.book_id;
+        const { data: event } = await supabaseAdmin
+          .from(table)
           .select('title, event_date, description')
-          .eq('id', registration.book_id)
+          .eq('id', eventId)
           .single();
 
-        if (book) {
+        if (event) {
           try {
-            await sendConfirmationEmail(registration, book);
+            await sendConfirmationEmail(registration, event);
           } catch (err) {
             console.error('Failed to send confirmation email', err);
           }
