@@ -34,7 +34,7 @@ export default async function LecturesPage() {
     <div className="container">
       <header className="site-header">
         <a href="/" className="wordmark">
-          notfrommunich<span> bookclub</span>
+          notfrommunich
         </a>
         <NavTabs />
       </header>
