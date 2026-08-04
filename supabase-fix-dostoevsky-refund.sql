@@ -11,4 +11,4 @@ order by created_at desc;
 
 update registrations
 set status = 'refunded'
-where id = '15d189a8-ee44-44b2-9f92-22f212bbca3a';
+where id = 'e6ab4069-0f10-4fac-8f5b-0760dce12e8e';
