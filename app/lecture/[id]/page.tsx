@@ -78,9 +78,6 @@ export default function LecturePage() {
   return (
     <div className="container">
       <a href="/lectures" className="back-link">&larr; All lectures</a>
-      {lecture.cover_url && (
-        <img className="detail-cover" src={lecture.cover_url} alt="" />
-      )}
       <h1>{lecture.title}</h1>
       <div className="book-date" style={{ marginBottom: 16 }}>
         {formatDate(lecture.event_date)}

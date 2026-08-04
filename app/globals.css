@@ -111,6 +111,10 @@ h1 {
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
+.card.no-cover {
+  grid-template-columns: 32px 1fr auto;
+}
+
 .card:hover {
   transform: translateX(2px);
 }

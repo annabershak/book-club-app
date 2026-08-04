@@ -14,7 +14,7 @@ function formatDate(dateStr: string) {
 export default async function LecturesPage() {
   const { data: lectures } = await supabaseAdmin
     .from('lectures')
-    .select('id, title, event_date, event_time, description, capacity, cover_url')
+    .select('id, title, event_date, event_time, description, capacity')
     .order('event_date', { ascending: true });
 
   // Count paid registrations for each lecture
@@ -52,12 +52,9 @@ export default async function LecturesPage() {
             <Link
               key={lecture.id}
               href={full ? '#' : `/lecture/${lecture.id}`}
-              className={`card ${full ? 'disabled' : ''}`}
+              className={`card no-cover ${full ? 'disabled' : ''}`}
             >
               <div className="book-index">{String(i + 1).padStart(2, '0')}</div>
-              <div className="book-cover">
-                {lecture.cover_url && <img src={lecture.cover_url} alt="" />}
-              </div>
               <div>
                 <div className="book-date">
                   {formatDate(lecture.event_date)}
