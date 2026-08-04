@@ -41,7 +41,7 @@ export default async function HomePage() {
 
       <h1>Upcoming meetups</h1>
       <p className="subtitle">
-        A small, informal book club. Pick a book below to reserve your seat.
+        a small, informal book club. pick a book below to reserve your seat.
       </p>
 
       <div className="book-list">

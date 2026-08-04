@@ -41,7 +41,7 @@ export default async function LecturesPage() {
 
       <h1>Upcoming lectures</h1>
       <p className="subtitle">
-        Short evening lectures, open to everyone. Pick one below to reserve your seat.
+        short evening lectures, open to everyone. pick one below to reserve your seat.
       </p>
 
       <div className="book-list">
