@@ -214,10 +214,40 @@ form {
   max-width: 60ch;
 }
 
+.lecture-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+}
+
 .lecture-body p {
   font-size: 16px;
   line-height: 1.7;
   margin: 0 0 18px;
+}
+
+.lecture-body p.pull-question {
+  font-size: 22px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 32px 0;
+  padding-left: 18px;
+  border-left: 3px solid var(--ink);
+}
+
+.lecture-body p.closing {
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
 }
 
 .fee-note {

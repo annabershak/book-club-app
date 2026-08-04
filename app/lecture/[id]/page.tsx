@@ -8,6 +8,36 @@ function formatDate(dateStr: string) {
   return d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
+function isPullQuestion(text: string) {
+  return text.length <= 90 && text.trim().endsWith('?');
+}
+
+function LectureBody({ body }: { body: string }) {
+  const raw = body.split('\n\n').map((p) => p.trim()).filter(Boolean);
+  const kickerMatch = raw[0]?.match(/^#(\d+)$/);
+  const kicker = kickerMatch ? kickerMatch[1] : null;
+  const paragraphs = kickerMatch ? raw.slice(1) : raw;
+
+  return (
+    <div className="lecture-body">
+      {kicker && <div className="lecture-kicker">Lecture #{kicker}</div>}
+      {paragraphs.map((para, i) => {
+        const isLast = i === paragraphs.length - 1;
+        const className = isPullQuestion(para)
+          ? 'pull-question'
+          : isLast
+          ? 'closing'
+          : undefined;
+        return (
+          <p key={i} className={className}>
+            {para}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function LecturePage() {
   const params = useParams();
   const id = params.id as string;
@@ -86,13 +116,7 @@ export default function LecturePage() {
       {lecture.description && <p className="book-desc" style={{ fontSize: 15, marginBottom: 16 }}>{lecture.description}</p>}
       <p className="fee-note">Venue to be announced — you'll get the details by email and in the WhatsApp group closer to the date.</p>
 
-      {lecture.body && (
-        <div className="lecture-body">
-          {lecture.body.split('\n\n').map((para: string, i: number) => (
-            <p key={i}>{para}</p>
-          ))}
-        </div>
-      )}
+      {lecture.body && <LectureBody body={lecture.body} />}
 
       <p className={`spots ${full ? 'full' : ''}`} style={{ textAlign: 'left' }}>
         {full ? 'Full' : `${spotsLeft} / ${lecture.capacity} seats left`}
