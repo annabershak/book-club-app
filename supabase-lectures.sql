@@ -7,6 +7,7 @@ create table lectures (
   event_date date not null,
   event_time text, -- e.g. '18:00', shown next to the date
   description text, -- short subtitle shown in the list and under the title
+  speaker text, -- who's leading the lecture, shown highlighted on the page
   body text, -- long-form write-up shown on the lecture page
   cover_url text,
   capacity int not null default 10,

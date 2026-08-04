@@ -5,3 +5,4 @@
 
 alter table lectures add column if not exists event_time text;
 alter table lectures add column if not exists body text;
+alter table lectures add column if not exists speaker text;
