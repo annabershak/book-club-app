@@ -10,10 +10,10 @@ export default function NavTabs() {
   return (
     <nav className="nav-tabs">
       <Link href="/" className={`nav-tab ${!isLectures ? 'active' : ''}`}>
-        Book club
+        book club
       </Link>
       <Link href="/lectures" className={`nav-tab ${isLectures ? 'active' : ''}`}>
-        Lectures
+        lectures
       </Link>
     </nav>
   );
