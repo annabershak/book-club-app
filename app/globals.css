@@ -7,6 +7,7 @@
   --card: #fff6d6;
   --danger: #5c1210;
   --ok: #3b7a52;
+  --accent: #b8720f;
 }
 
 * { box-sizing: border-box; }
@@ -50,8 +51,7 @@ body {
   font-weight: 600;
   text-decoration: none;
   color: var(--muted);
-  padding: 6px 14px;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition: color 0.15s ease;
 }
 
 .nav-tab:hover {
@@ -59,8 +59,7 @@ body {
 }
 
 .nav-tab.active {
-  color: #fff;
-  background: var(--ink);
+  color: var(--accent);
 }
 
 .wordmark {
@@ -86,13 +85,10 @@ h1 {
 }
 
 .subtitle {
-  display: inline-block;
-  background: var(--ink);
-  color: #fff;
+  color: var(--accent);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
-  padding: 10px 16px;
   margin: 0 0 64px;
   max-width: 46ch;
 }
