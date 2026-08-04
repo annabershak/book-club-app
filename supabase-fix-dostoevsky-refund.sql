@@ -7,9 +7,8 @@ where lecture_id = (
 )
 order by created_at desc;
 
--- Шаг 2: скопируй id нужной строки из результата выше и вставь его сюда,
--- затем выполни отдельно (или раскомментируй и замени PASTE_ID_HERE):
+-- Шаг 2: скопируй запрос ниже в новый query в Supabase SQL Editor и нажми Run.
 
--- update registrations
--- set status = 'refunded'
--- where id = 'PASTE_ID_HERE';
+update registrations
+set status = 'refunded'
+where id = '15d189a8-ee44-44b2-9f92-22f212bbca3a';
