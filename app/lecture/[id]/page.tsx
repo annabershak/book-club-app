@@ -82,8 +82,21 @@ export default function LecturePage() {
         <img className="detail-cover" src={lecture.cover_url} alt="" />
       )}
       <h1>{lecture.title}</h1>
-      <div className="book-date" style={{ marginBottom: 16 }}>{formatDate(lecture.event_date)}</div>
+      <div className="book-date" style={{ marginBottom: 16 }}>
+        {formatDate(lecture.event_date)}
+        {lecture.event_time && ` · ${lecture.event_time}`}
+      </div>
       {lecture.description && <p className="book-desc" style={{ fontSize: 15, marginBottom: 16 }}>{lecture.description}</p>}
+      <p className="fee-note">Venue to be announced — you'll get the details by email and in the WhatsApp group closer to the date.</p>
+
+      {lecture.body && (
+        <div className="lecture-body">
+          {lecture.body.split('\n\n').map((para: string, i: number) => (
+            <p key={i}>{para}</p>
+          ))}
+        </div>
+      )}
+
       <p className={`spots ${full ? 'full' : ''}`} style={{ textAlign: 'left' }}>
         {full ? 'Full' : `${spotsLeft} / ${lecture.capacity} seats left`}
       </p>

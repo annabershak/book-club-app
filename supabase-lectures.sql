@@ -5,7 +5,9 @@ create table lectures (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   event_date date not null,
-  description text,
+  event_time text, -- e.g. '18:00', shown next to the date
+  description text, -- short subtitle shown in the list and under the title
+  body text, -- long-form write-up shown on the lecture page
   cover_url text,
   capacity int not null default 10,
   price_cents int not null default 500,
@@ -29,6 +31,3 @@ alter table registrations add constraint registrations_one_event_check
     (book_id is null and lecture_id is not null)
   );
 
--- Пример лекции (отредактируй/удали по необходимости)
--- insert into lectures (title, event_date, description, capacity, price_cents) values
---   ('Introduction to Something', '2026-09-01', 'A short evening lecture', 20, 500);

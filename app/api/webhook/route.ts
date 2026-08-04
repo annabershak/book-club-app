@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
         const eventId = registration.lecture_id || registration.book_id;
         const { data: event } = await supabaseAdmin
           .from(table)
-          .select('title, event_date, description')
+          .select('*')
           .eq('id', eventId)
           .single();
 

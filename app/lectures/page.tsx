@@ -14,7 +14,7 @@ function formatDate(dateStr: string) {
 export default async function LecturesPage() {
   const { data: lectures } = await supabaseAdmin
     .from('lectures')
-    .select('id, title, event_date, description, capacity, cover_url')
+    .select('id, title, event_date, event_time, description, capacity, cover_url')
     .order('event_date', { ascending: true });
 
   // Count paid registrations for each lecture
@@ -59,7 +59,10 @@ export default async function LecturesPage() {
                 {lecture.cover_url && <img src={lecture.cover_url} alt="" />}
               </div>
               <div>
-                <div className="book-date">{formatDate(lecture.event_date)}</div>
+                <div className="book-date">
+                  {formatDate(lecture.event_date)}
+                  {lecture.event_time && ` · ${lecture.event_time}`}
+                </div>
                 <div className="book-title">{lecture.title}</div>
                 {lecture.description && <div className="book-desc">{lecture.description}</div>}
               </div>
