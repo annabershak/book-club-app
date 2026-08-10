@@ -37,7 +37,7 @@ export async function sendConfirmationEmail(registration: any, book: any) {
 export async function sendAnnouncementEmail(
   registration: any,
   book: any,
-  details: { date: string; time: string; venue: string; address: string; mapUrl: string }
+  details: { date: string; time: string; venue: string; address?: string; mapUrl: string }
 ) {
   const html = `
     <div style="font-family: Georgia, 'Times New Roman', serif; color: #111; line-height: 1.6;">
@@ -49,7 +49,7 @@ export async function sendAnnouncementEmail(
         <br>
         <strong>Date:</strong> ${details.date}<br>
         <strong>Time:</strong> ${details.time}<br>
-        <strong>Location:</strong> ${details.venue} — ${details.address}<br>
+        <strong>Location:</strong> ${details.venue}${details.address ? ` — ${details.address}` : ''}<br>
         <a href="${details.mapUrl}">Open in Google Maps</a>
       </p>
       <p>Bring your thoughts on the book — and your appetite. Can't wait to see you there!</p>

@@ -13,6 +13,8 @@ export default function AdminPage() {
   const [resendResult, setResendResult] = useState<{ id: string; ok: boolean } | null>(null);
   const [announcing, setAnnouncing] = useState(false);
   const [announceResult, setAnnounceResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
+  const [announcingLecture, setAnnouncingLecture] = useState(false);
+  const [announceLectureResult, setAnnounceLectureResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
 
   async function loadData() {
     const res = await fetch('/api/admin-data');
@@ -72,6 +74,15 @@ export default function AdminPage() {
     setAnnounceResult(res.ok ? data : data.error || 'Failed to send');
   }
 
+  async function handleAnnounceLecture() {
+    setAnnouncingLecture(true);
+    setAnnounceLectureResult(null);
+    const res = await fetch('/api/admin-announce-dostoevsky', { method: 'POST' });
+    const data = await res.json();
+    setAnnouncingLecture(false);
+    setAnnounceLectureResult(res.ok ? data : data.error || 'Failed to send');
+  }
+
   if (!authed) {
     return (
       <div className="container">
@@ -103,6 +114,18 @@ export default function AdminPage() {
           {typeof announceResult === 'string'
             ? announceResult
             : `Sent: ${announceResult.sent}${announceResult.failed.length ? `, failed: ${announceResult.failed.join(', ')}` : ''}`}
+        </p>
+      )}
+
+      <h2>One-off: Dostoevsky lecture venue announcement</h2>
+      <button type="button" disabled={announcingLecture} onClick={handleAnnounceLecture}>
+        {announcingLecture ? 'Sending...' : 'Send Dostoevsky lecture announcement'}
+      </button>
+      {announceLectureResult && (
+        <p style={{ fontSize: 13, marginTop: 12 }}>
+          {typeof announceLectureResult === 'string'
+            ? announceLectureResult
+            : `Sent: ${announceLectureResult.sent}${announceLectureResult.failed.length ? `, failed: ${announceLectureResult.failed.join(', ')}` : ''}`}
         </p>
       )}
 
