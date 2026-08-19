@@ -11,10 +11,8 @@ export default function AdminPage() {
   const [registrations, setRegistrations] = useState<any[]>([]);
   const [resending, setResending] = useState<string | null>(null);
   const [resendResult, setResendResult] = useState<{ id: string; ok: boolean } | null>(null);
-  const [announcing, setAnnouncing] = useState(false);
-  const [announceResult, setAnnounceResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
-  const [announcingLecture, setAnnouncingLecture] = useState(false);
-  const [announceLectureResult, setAnnounceLectureResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
+  const [announcingGarden, setAnnouncingGarden] = useState(false);
+  const [announceGardenResult, setAnnounceGardenResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
 
   async function loadData() {
     const res = await fetch('/api/admin-data');
@@ -65,22 +63,13 @@ export default function AdminPage() {
     setResendResult({ id: registrationId, ok: res.ok });
   }
 
-  async function handleAnnounce() {
-    setAnnouncing(true);
-    setAnnounceResult(null);
-    const res = await fetch('/api/admin-announce', { method: 'POST' });
+  async function handleAnnounceGarden() {
+    setAnnouncingGarden(true);
+    setAnnounceGardenResult(null);
+    const res = await fetch('/api/admin-announce-garden', { method: 'POST' });
     const data = await res.json();
-    setAnnouncing(false);
-    setAnnounceResult(res.ok ? data : data.error || 'Failed to send');
-  }
-
-  async function handleAnnounceLecture() {
-    setAnnouncingLecture(true);
-    setAnnounceLectureResult(null);
-    const res = await fetch('/api/admin-announce-dostoevsky', { method: 'POST' });
-    const data = await res.json();
-    setAnnouncingLecture(false);
-    setAnnounceLectureResult(res.ok ? data : data.error || 'Failed to send');
+    setAnnouncingGarden(false);
+    setAnnounceGardenResult(res.ok ? data : data.error || 'Failed to send');
   }
 
   if (!authed) {
@@ -105,27 +94,15 @@ export default function AdminPage() {
     <div className="container">
       <h1>Admin</h1>
 
-      <h2>One-off: Tokarczuk venue announcement</h2>
-      <button type="button" disabled={announcing} onClick={handleAnnounce}>
-        {announcing ? 'Sending...' : 'Send Tokarczuk announcement'}
+      <h2>One-off: Aug 22 garden meetup announcement</h2>
+      <button type="button" disabled={announcingGarden} onClick={handleAnnounceGarden}>
+        {announcingGarden ? 'Sending...' : 'Send garden meetup announcement'}
       </button>
-      {announceResult && (
+      {announceGardenResult && (
         <p style={{ fontSize: 13, marginTop: 12 }}>
-          {typeof announceResult === 'string'
-            ? announceResult
-            : `Sent: ${announceResult.sent}${announceResult.failed.length ? `, failed: ${announceResult.failed.join(', ')}` : ''}`}
-        </p>
-      )}
-
-      <h2>One-off: Dostoevsky lecture venue announcement</h2>
-      <button type="button" disabled={announcingLecture} onClick={handleAnnounceLecture}>
-        {announcingLecture ? 'Sending...' : 'Send Dostoevsky lecture announcement'}
-      </button>
-      {announceLectureResult && (
-        <p style={{ fontSize: 13, marginTop: 12 }}>
-          {typeof announceLectureResult === 'string'
-            ? announceLectureResult
-            : `Sent: ${announceLectureResult.sent}${announceLectureResult.failed.length ? `, failed: ${announceLectureResult.failed.join(', ')}` : ''}`}
+          {typeof announceGardenResult === 'string'
+            ? announceGardenResult
+            : `Sent: ${announceGardenResult.sent}${announceGardenResult.failed.length ? `, failed: ${announceGardenResult.failed.join(', ')}` : ''}`}
         </p>
       )}
 

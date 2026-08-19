@@ -34,25 +34,26 @@ export async function sendConfirmationEmail(registration: any, book: any) {
   });
 }
 
-export async function sendAnnouncementEmail(
+export async function sendGardenAnnouncementEmail(
   registration: any,
   book: any,
-  details: { date: string; time: string; venue: string; address?: string; mapUrl: string }
+  details: { date: string; time: string; mapUrl: string }
 ) {
   const html = `
     <div style="font-family: Georgia, 'Times New Roman', serif; color: #111; line-height: 1.6;">
       <p>Hi ${registration.name},</p>
-      <p>Everything's set for our next meetup — here's where to find us:</p>
+      <p>I'd love for us to spend one of the last days of summer together — in a garden. The forecast is looking good for ${details.date}, so I'm proposing we meet outside this time.</p>
       <p style="margin: 24px 0; padding: 16px 20px; border-left: 3px solid #e8b923; background: #faf7f0;">
         <strong>${book.title}</strong><br>
-        ${book.description ? `${book.description}<br>` : ''}
         <br>
         <strong>Date:</strong> ${details.date}<br>
         <strong>Time:</strong> ${details.time}<br>
-        <strong>Location:</strong> ${details.venue}${details.address ? ` — ${details.address}` : ''}<br>
+        <strong>Location:</strong> the park just to the right of the Kriegerdenkmal im Hofgarten — a quiet, secluded spot under the trees, with plenty of space for all of us<br>
         <a href="${details.mapUrl}">Open in Google Maps</a>
       </p>
-      <p>Bring your thoughts on the book — and your appetite. Can't wait to see you there!</p>
+      <p>I'll bring snacks for everyone. If it's not too much trouble, please bring a blanket to sit on — I only have one!</p>
+      <p>Any questions — message me on WhatsApp: +49 160 2425759.</p>
+      <p>I'll be waiting for you there. Can't wait to see you all!</p>
       <p>— notfrommunich bookclub</p>
     </div>
   `;
@@ -60,7 +61,7 @@ export async function sendAnnouncementEmail(
   await mailer.sendMail({
     from: `"notfrommunich bookclub" <${process.env.GMAIL_USER}>`,
     to: registration.email,
-    subject: `Meetup details — ${book.title}`,
+    subject: `Let's meet in the garden — ${book.title}`,
     html,
   });
 }
