@@ -31,7 +31,7 @@ insert into books (title, event_date, description, cover_url, capacity, price_ce
   (
     'Simple Passion / Happening',
     '2026-12-05',
-    'Two spare, unflinching accounts of desire and an illegal abortion in 1960s France, from the Nobel laureate. By Annie Ernaux.',
+    'Two spare, unflinching accounts of desire and an illegal abortion in 1960s France, from the Nobel laureate. By Annie Ernaux. Both novellas are short, so we''re reading them together for this one meetup.',
     'https://covers.openlibrary.org/b/id/8332450-L.jpg',
     10,
     500
