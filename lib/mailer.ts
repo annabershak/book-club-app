@@ -34,7 +34,7 @@ export async function sendConfirmationEmail(registration: any, book: any) {
   });
 }
 
-export async function sendSeptemberAnnouncementEmail(
+export async function sendOctoberAnnouncementEmail(
   registration: any,
   book: any,
   details: { date: string; time: string; venue: string; address: string; mapUrl: string }
@@ -52,6 +52,9 @@ export async function sendSeptemberAnnouncementEmail(
           <strong>Location:</strong> ${details.venue} — ${details.address}<br>
           <a href="${details.mapUrl}" style="color: #7b1c1a;">Open in Google Maps</a>
         </p>
+        <p>We'll be in the corner circled on the map below:</p>
+        <p><img src="cid:hofgarten-spot" alt="Map of the Hofgarten with our meeting spot circled" width="480" style="max-width: 100%; height: auto; border: 1px solid #e5e0d5;"></p>
+        <p>We'll be sitting on the grass, so if you have a picnic blanket, please bring it along — it would really help. We'll take care of the snacks!</p>
         <p>Any questions — message me on WhatsApp: +49 160 2425759.</p>
         <p>Can't wait to see you there!</p>
         <p>— notfrommunich bookclub</p>
@@ -64,5 +67,12 @@ export async function sendSeptemberAnnouncementEmail(
     to: registration.email,
     subject: `Meetup details — ${book.title}`,
     html,
+    attachments: [
+      {
+        filename: 'hofgarten-spot.jpg',
+        path: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/hofgarten-spot.jpg`,
+        cid: 'hofgarten-spot',
+      },
+    ],
   });
 }

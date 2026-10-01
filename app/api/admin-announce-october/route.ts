@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { sendSeptemberAnnouncementEmail } from '@/lib/mailer';
+import { sendOctoberAnnouncementEmail } from '@/lib/mailer';
 
 // One-off: sends the venue/time announcement to everyone who paid for
-// the Sept 12, 2026 book club meetup. Safe to remove after use.
+// the Oct 3, 2026 book club meetup (Yesteryear). Safe to remove after use.
 export async function POST(req: NextRequest) {
   const cookie = req.cookies.get('admin_auth')?.value;
   if (!cookie || cookie !== process.env.ADMIN_PASSWORD) {
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const { data: book, error: bookError } = await supabaseAdmin
     .from('books')
     .select('*')
-    .eq('event_date', '2026-09-12')
+    .eq('event_date', '2026-10-03')
     .single();
 
   if (bookError || !book) {
@@ -31,11 +31,11 @@ export async function POST(req: NextRequest) {
   }
 
   const details = {
-    date: 'September 12, 2026',
-    time: '12:00',
-    venue: 'Prächtig Tagesbar',
-    address: 'Augustenstraße 37, 80333 München-Maxvorstadt',
-    mapUrl: 'https://maps.app.goo.gl/C2Q4bemwZuCHs5Ng9?g_st=ic',
+    date: 'October 3, 2026',
+    time: '14:00',
+    venue: 'Hofgarten',
+    address: 'south-east corner, by the Residenz and the Bayerische Staatskanzlei',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=Hofgarten+M%C3%BCnchen',
   };
 
   let sent = 0;
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
   for (const registration of registrations || []) {
     try {
-      await sendSeptemberAnnouncementEmail(registration, book, details);
+      await sendOctoberAnnouncementEmail(registration, book, details);
       sent++;
     } catch (err) {
       failed.push(registration.email);
