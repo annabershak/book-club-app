@@ -1,13 +1,13 @@
 import './globals.css';
 import localFont from 'next/font/local';
-import { Nunito } from 'next/font/google';
+import { Roboto_Mono } from 'next/font/google';
 
 const display = localFont({
   src: './fonts/CactusJack.ttf',
   variable: '--font-display',
 });
 
-const body = Nunito({
+const body = Roboto_Mono({
   subsets: ['latin'],
   weight: ['400', '600', '700'],
   variable: '--font-body',
