@@ -170,9 +170,6 @@ export default function LecturePage() {
             {loading ? 'Redirecting to payment...' : `Reserve a seat — ${(lecture.price_cents / 100).toFixed(2)} €`}
           </button>
           <p className="fee-note">
-            We ask for a small deposit to make sure everyone who signs up actually shows up.
-          </p>
-          <p className="fee-note">
             Once you've reserved your seat, you'll get a confirmation email with all the details — thanks for joining us!
           </p>
         </form>
