@@ -1,15 +1,9 @@
 import './globals.css';
-import localFont from 'next/font/local';
 import { Roboto_Mono } from 'next/font/google';
-
-const display = localFont({
-  src: './fonts/CactusJack.ttf',
-  variable: '--font-display',
-});
 
 const body = Roboto_Mono({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
+  weight: ['400', '700'],
   variable: '--font-body',
 });
 
@@ -20,7 +14,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={body.variable}>
       <body>{children}</body>
     </html>
   );
