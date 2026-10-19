@@ -4,13 +4,13 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-async function getSpotsLeft(lectureId: string, capacity: number) {
+async function getSpotsLeft(lecture: any) {
   const { count } = await supabaseAdmin
     .from('registrations')
     .select('id', { count: 'exact', head: true })
-    .eq('lecture_id', lectureId)
+    .eq('lecture_id', lecture.id)
     .eq('status', 'paid');
-  return capacity - (count || 0);
+  return lecture.capacity - (lecture.reserved_seats || 0) - (count || 0);
 }
 
 // GET /api/lecture-checkout?lecture_id=... -> данные лекции + сколько мест осталось
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
 
   if (error || !lecture) return NextResponse.json({ error: 'Lecture not found' }, { status: 404 });
 
-  const spotsLeft = await getSpotsLeft(lectureId, lecture.capacity);
+  const spotsLeft = await getSpotsLeft(lecture);
   return NextResponse.json({ lecture, spotsLeft });
 }
 
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Lecture not found' }, { status: 404 });
   }
 
-  const spotsLeft = await getSpotsLeft(lecture_id, lecture.capacity);
+  const spotsLeft = await getSpotsLeft(lecture);
   if (spotsLeft <= 0) {
     return NextResponse.json({ error: 'No seats left' }, { status: 400 });
   }

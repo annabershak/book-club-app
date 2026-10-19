@@ -14,7 +14,7 @@ function formatDate(dateStr: string) {
 export default async function LecturesPage() {
   const { data: lectures } = await supabaseAdmin
     .from('lectures')
-    .select('id, title, event_date, event_time, description, capacity')
+    .select('id, title, event_date, event_time, description, capacity, reserved_seats')
     .order('event_date', { ascending: true });
 
   // Count paid registrations for each lecture
@@ -26,9 +26,12 @@ export default async function LecturesPage() {
         .eq('lecture_id', lecture.id)
         .eq('status', 'paid');
       const taken = count || 0;
-      return { ...lecture, spotsLeft: lecture.capacity - taken };
+      return { ...lecture, spotsLeft: lecture.capacity - (lecture.reserved_seats || 0) - taken };
     })
   );
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const upcoming = lecturesWithSpots.filter((l) => l.event_date >= todayStr);
 
   return (
     <div className="container">
@@ -45,7 +48,7 @@ export default async function LecturesPage() {
       </p>
 
       <div className="book-list">
-        {lecturesWithSpots.map((lecture, i) => {
+        {upcoming.map((lecture, i) => {
           const full = lecture.spotsLeft <= 0;
           const low = lecture.spotsLeft > 0 && lecture.spotsLeft <= 3;
           return (
@@ -71,7 +74,7 @@ export default async function LecturesPage() {
         })}
       </div>
 
-      {lecturesWithSpots.length === 0 && (
+      {upcoming.length === 0 && (
         <p className="empty">No lectures scheduled yet.</p>
       )}
     </div>

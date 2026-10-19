@@ -144,7 +144,7 @@ export default function AdminPage() {
           {lectures.map((l) => {
             const paidCount = registrations.filter(
               (r) => r.lecture_id === l.id && r.status === 'paid'
-            ).length;
+            ).length + (l.reserved_seats || 0);
             return (
               <tr key={l.id}>
                 <td>{l.title}</td>

@@ -115,7 +115,21 @@ export default function LecturePage() {
       </div>
       {lecture.description && <p className="book-desc" style={{ fontSize: 15, marginBottom: 16 }}>{lecture.description}</p>}
       {lecture.speaker && <p className="speaker-note">{lecture.speaker}</p>}
-      <p className="fee-note">Venue to be announced — you'll get the details by email and in the WhatsApp group closer to the date.</p>
+      {lecture.venue ? (
+        <p className="fee-note">
+          {lecture.venue}
+          {lecture.venue_url && (
+            <>
+              {' · '}
+              <a href={lecture.venue_url} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+                map
+              </a>
+            </>
+          )}
+        </p>
+      ) : (
+        <p className="fee-note">Venue to be announced — you'll get the details by email and in the WhatsApp group closer to the date.</p>
+      )}
 
       {lecture.body && <LectureBody body={lecture.body} />}
 

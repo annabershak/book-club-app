@@ -20,7 +20,9 @@ export async function sendConfirmationEmail(registration: any, book: any) {
     <p>Hi ${registration.name},</p>
     <p>You're confirmed for <strong>${book.title}</strong> on <strong>${formatDate(book.event_date)}${book.event_time ? ` at ${book.event_time}` : ''}</strong>.</p>
     ${book.description ? `<p>${book.description}</p>` : ''}
-    <p>The exact meetup spot will be announced in the book club's WhatsApp group closer to the date.</p>
+    ${book.venue
+      ? `<p><strong>Location:</strong> ${book.venue}${book.venue_url ? ` — <a href="${book.venue_url}">open in Google Maps</a>` : ''}</p>`
+      : `<p>The exact meetup spot will be announced in the book club's WhatsApp group closer to the date.</p>`}
     ${whatsappUrl ? `<p><a href="${whatsappUrl}">Join the WhatsApp group</a></p>` : ''}
     <p>Any questions — just ask the admins in the group.</p>
     <p>See you soon!<br>notfrommunich bookclub</p>
