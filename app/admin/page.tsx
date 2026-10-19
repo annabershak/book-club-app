@@ -11,8 +11,8 @@ export default function AdminPage() {
   const [registrations, setRegistrations] = useState<any[]>([]);
   const [resending, setResending] = useState<string | null>(null);
   const [resendResult, setResendResult] = useState<{ id: string; ok: boolean } | null>(null);
-  const [announcingOctober, setAnnouncingOctober] = useState(false);
-  const [announceOctoberResult, setAnnounceOctoberResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
+  const [announcingDemian, setAnnouncingDemian] = useState(false);
+  const [announceDemianResult, setAnnounceDemianResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
 
   async function loadData() {
     const res = await fetch('/api/admin-data');
@@ -63,13 +63,13 @@ export default function AdminPage() {
     setResendResult({ id: registrationId, ok: res.ok });
   }
 
-  async function handleAnnounceOctober() {
-    setAnnouncingOctober(true);
-    setAnnounceOctoberResult(null);
-    const res = await fetch('/api/admin-announce-october', { method: 'POST' });
+  async function handleAnnounceDemian() {
+    setAnnouncingDemian(true);
+    setAnnounceDemianResult(null);
+    const res = await fetch('/api/admin-announce-demian', { method: 'POST' });
     const data = await res.json();
-    setAnnouncingOctober(false);
-    setAnnounceOctoberResult(res.ok ? data : data.error || 'Failed to send');
+    setAnnouncingDemian(false);
+    setAnnounceDemianResult(res.ok ? data : data.error || 'Failed to send');
   }
 
   if (!authed) {
@@ -94,15 +94,15 @@ export default function AdminPage() {
     <div className="container">
       <h1>Admin</h1>
 
-      <h2>One-off: Oct 3 meetup announcement</h2>
-      <button type="button" disabled={announcingOctober} onClick={handleAnnounceOctober}>
-        {announcingOctober ? 'Sending...' : 'Send October meetup announcement'}
+      <h2>One-off: Oct 24 meetup announcement (Demian)</h2>
+      <button type="button" disabled={announcingDemian} onClick={handleAnnounceDemian}>
+        {announcingDemian ? 'Sending...' : 'Send Demian meetup announcement'}
       </button>
-      {announceOctoberResult && (
+      {announceDemianResult && (
         <p style={{ fontSize: 13, marginTop: 12 }}>
-          {typeof announceOctoberResult === 'string'
-            ? announceOctoberResult
-            : `Sent: ${announceOctoberResult.sent}${announceOctoberResult.failed.length ? `, failed: ${announceOctoberResult.failed.join(', ')}` : ''}`}
+          {typeof announceDemianResult === 'string'
+            ? announceDemianResult
+            : `Sent: ${announceDemianResult.sent}${announceDemianResult.failed.length ? `, failed: ${announceDemianResult.failed.join(', ')}` : ''}`}
         </p>
       )}
 
