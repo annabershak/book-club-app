@@ -39,7 +39,7 @@ export default async function LecturesPage() {
         <NavTabs />
       </header>
 
-      <h1>Upcoming lectures</h1>
+      <h1 className="page-title">Upcoming lectures</h1>
       <p className="subtitle">
         short evening lectures, open to everyone. pick one below to reserve your seat.
       </p>

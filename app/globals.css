@@ -39,12 +39,7 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  margin: -64px 0 72px;
-  padding: 22px 0;
-  background: var(--ink);
-  /* full-bleed dark band while content stays in the container */
-  box-shadow: 0 0 0 100vmax var(--ink);
-  clip-path: inset(0 -100vmax);
+  margin-bottom: 72px;
 }
 
 .nav-tabs {
@@ -56,16 +51,16 @@ body {
   font-size: 14px;
   font-weight: 400;
   text-decoration: none;
-  color: var(--line);
+  color: var(--muted);
   transition: color 0.15s ease;
 }
 
 .nav-tab:hover {
-  color: var(--card);
+  color: var(--ink);
 }
 
 .nav-tab.active {
-  color: var(--card);
+  color: var(--ink);
   text-decoration: underline;
   text-decoration-color: var(--accent);
   text-decoration-thickness: 2px;
@@ -76,7 +71,7 @@ body {
   font-size: 16px;
   font-weight: 700;
   text-decoration: none;
-  color: var(--bg);
+  color: var(--ink);
 }
 
 .tagline {
@@ -87,15 +82,26 @@ body {
 h1 {
   font-size: 28px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--ink);
   margin: 0 0 16px;
 }
 
+/* list-page headings read as plain text, same as the subtitle under them */
+h1.page-title,
 .section-title {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
   text-transform: none;
-  color: var(--accent);
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+h1.page-title {
+  margin: 0;
+}
+
+.section-title {
   margin: 56px 0 16px;
 }
 

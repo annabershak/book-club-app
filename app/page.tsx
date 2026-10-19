@@ -45,7 +45,7 @@ export default async function HomePage() {
         <NavTabs />
       </header>
 
-      <h1>Upcoming events</h1>
+      <h1 className="page-title">Upcoming events</h1>
       <p className="subtitle">
         a small, informal book club. pick a book below to reserve your seat.
       </p>
