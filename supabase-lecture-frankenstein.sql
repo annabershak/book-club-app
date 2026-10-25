@@ -20,7 +20,7 @@ join us for a special literary lecture exploring mary shelley's frankenstein —
 
 an evening of gothic literature, meaningful conversations, and thought-provoking discussions with fellow book lovers. 🖤$$,
   'Kulturhaus Milbertshofen — Curt-Mezger-Platz 1, 80809 München',
-  'https://maps.app.goo.gl/aQmjVHAweovSqNjPA',
+  'https://maps.app.goo.gl/hJ9k1WNb1YHRdC1m8',
   20,
   3,
   1000
