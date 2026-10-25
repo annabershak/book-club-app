@@ -1,6 +1,6 @@
 -- Выполни этот скрипт в Supabase: SQL Editor -> New query -> вставить -> Run
 -- Добавляет хэллоуинскую лекцию о "Франкенштейне" (27 октября, 19:00).
--- ВНИМАНИЕ: запускать только один раз! Повторный запуск создаст дубль лекции.
+-- Повторный запуск ничего не делает, если лекция на 27 октября уже есть.
 -- Требует, чтобы supabase-lectures.sql (и, если нужно,
 -- supabase-lectures-add-fields.sql) уже были выполнены.
 
@@ -9,7 +9,8 @@ alter table lectures add column if not exists venue text; -- e.g. 'Kulturhaus Mi
 alter table lectures add column if not exists venue_url text; -- Google Maps link
 alter table lectures add column if not exists reserved_seats int not null default 0; -- seats taken outside the site
 
-insert into lectures (title, event_date, event_time, description, speaker, body, venue, venue_url, capacity, reserved_seats, price_cents) values (
+insert into lectures (title, event_date, event_time, description, speaker, body, venue, venue_url, capacity, reserved_seats, price_cents)
+select
   '🎃 halloween special lecture: frankenstein — the monster, the myth & the Mary Shelley',
   '2026-10-27',
   '19:00',
@@ -25,4 +26,4 @@ an evening of gothic literature, meaningful conversations, and thought-provoking
   20,
   3,
   1000
-);
+where not exists (select 1 from lectures where event_date = '2026-10-27');
