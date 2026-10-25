@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
     time: '19:00',
     venue: 'Kulturhaus Milbertshofen',
     address: 'Curt-Mezger-Platz 1, 80809 München',
+    room: '3.11 Martina-Badhorn',
     mapUrl: 'https://maps.app.goo.gl/hJ9k1WNb1YHRdC1m8',
   };
 
