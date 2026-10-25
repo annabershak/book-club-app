@@ -36,18 +36,18 @@ export async function sendConfirmationEmail(registration: any, book: any) {
   });
 }
 
-export async function sendDemianAnnouncementEmail(
+export async function sendFrankensteinAnnouncementEmail(
   registration: any,
-  book: any,
+  lecture: any,
   details: { date: string; time: string; venue: string; address: string; mapUrl: string }
 ) {
   const html = `
     <div style="background-color: #ffffff; padding: 24px;">
       <div style="font-family: Georgia, 'Times New Roman', serif; color: #111111; line-height: 1.6;">
         <p>Hi ${registration.name},</p>
-        <p>Here are the details for our next meetup — see you there!</p>
+        <p>Here are the details for our Halloween lecture on Frankenstein — see you there!</p>
         <p style="margin: 24px 0; padding: 16px 20px; border-left: 3px solid #e8b923; background-color: #faf7f0; color: #111111;">
-          <strong>${book.title}</strong><br>
+          <strong>${lecture.title}</strong><br>
           <br>
           <strong>Date:</strong> ${details.date}<br>
           <strong>Time:</strong> ${details.time}<br>
@@ -64,7 +64,7 @@ export async function sendDemianAnnouncementEmail(
   await mailer.sendMail({
     from: `"notfrommunich bookclub" <${process.env.GMAIL_USER}>`,
     to: registration.email,
-    subject: `Meetup details — ${book.title}`,
+    subject: 'Lecture details — Frankenstein 🎃',
     html,
   });
 }

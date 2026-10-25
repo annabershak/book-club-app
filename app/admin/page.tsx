@@ -11,8 +11,8 @@ export default function AdminPage() {
   const [registrations, setRegistrations] = useState<any[]>([]);
   const [resending, setResending] = useState<string | null>(null);
   const [resendResult, setResendResult] = useState<{ id: string; ok: boolean } | null>(null);
-  const [announcingDemian, setAnnouncingDemian] = useState(false);
-  const [announceDemianResult, setAnnounceDemianResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
+  const [announcingFrankenstein, setAnnouncingFrankenstein] = useState(false);
+  const [announceFrankensteinResult, setAnnounceFrankensteinResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
 
   async function loadData() {
     const res = await fetch('/api/admin-data');
@@ -63,13 +63,13 @@ export default function AdminPage() {
     setResendResult({ id: registrationId, ok: res.ok });
   }
 
-  async function handleAnnounceDemian() {
-    setAnnouncingDemian(true);
-    setAnnounceDemianResult(null);
-    const res = await fetch('/api/admin-announce-demian', { method: 'POST' });
+  async function handleAnnounceFrankenstein() {
+    setAnnouncingFrankenstein(true);
+    setAnnounceFrankensteinResult(null);
+    const res = await fetch('/api/admin-announce-frankenstein', { method: 'POST' });
     const data = await res.json();
-    setAnnouncingDemian(false);
-    setAnnounceDemianResult(res.ok ? data : data.error || 'Failed to send');
+    setAnnouncingFrankenstein(false);
+    setAnnounceFrankensteinResult(res.ok ? data : data.error || 'Failed to send');
   }
 
   if (!authed) {
@@ -94,15 +94,15 @@ export default function AdminPage() {
     <div className="container">
       <h1>Admin</h1>
 
-      <h2>One-off: Oct 24 meetup announcement (Demian)</h2>
-      <button type="button" disabled={announcingDemian} onClick={handleAnnounceDemian}>
-        {announcingDemian ? 'Sending...' : 'Send Demian meetup announcement'}
+      <h2>One-off: Oct 27 lecture announcement (Frankenstein)</h2>
+      <button type="button" disabled={announcingFrankenstein} onClick={handleAnnounceFrankenstein}>
+        {announcingFrankenstein ? 'Sending...' : 'Send Frankenstein lecture announcement'}
       </button>
-      {announceDemianResult && (
+      {announceFrankensteinResult && (
         <p style={{ fontSize: 13, marginTop: 12 }}>
-          {typeof announceDemianResult === 'string'
-            ? announceDemianResult
-            : `Sent: ${announceDemianResult.sent}${announceDemianResult.failed.length ? `, failed: ${announceDemianResult.failed.join(', ')}` : ''}`}
+          {typeof announceFrankensteinResult === 'string'
+            ? announceFrankensteinResult
+            : `Sent: ${announceFrankensteinResult.sent}${announceFrankensteinResult.failed.length ? `, failed: ${announceFrankensteinResult.failed.join(', ')}` : ''}`}
         </p>
       )}
 
