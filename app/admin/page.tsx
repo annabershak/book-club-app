@@ -11,8 +11,8 @@ export default function AdminPage() {
   const [registrations, setRegistrations] = useState<any[]>([]);
   const [resending, setResending] = useState<string | null>(null);
   const [resendResult, setResendResult] = useState<{ id: string; ok: boolean } | null>(null);
-  const [announcingFrankenstein, setAnnouncingFrankenstein] = useState(false);
-  const [announceFrankensteinResult, setAnnounceFrankensteinResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
+  const [announcingDidion, setAnnouncingDidion] = useState(false);
+  const [announceDidionResult, setAnnounceDidionResult] = useState<{ sent: number; failed: string[] } | string | null>(null);
 
   async function loadData() {
     const res = await fetch('/api/admin-data');
@@ -63,13 +63,13 @@ export default function AdminPage() {
     setResendResult({ id: registrationId, ok: res.ok });
   }
 
-  async function handleAnnounceFrankenstein() {
-    setAnnouncingFrankenstein(true);
-    setAnnounceFrankensteinResult(null);
-    const res = await fetch('/api/admin-announce-frankenstein', { method: 'POST' });
+  async function handleAnnounceDidion() {
+    setAnnouncingDidion(true);
+    setAnnounceDidionResult(null);
+    const res = await fetch('/api/admin-announce-didion', { method: 'POST' });
     const data = await res.json();
-    setAnnouncingFrankenstein(false);
-    setAnnounceFrankensteinResult(res.ok ? data : data.error || 'Failed to send');
+    setAnnouncingDidion(false);
+    setAnnounceDidionResult(res.ok ? data : data.error || 'Failed to send');
   }
 
   if (!authed) {
@@ -94,15 +94,15 @@ export default function AdminPage() {
     <div className="container">
       <h1>Admin</h1>
 
-      <h2>One-off: Oct 27 lecture announcement (Frankenstein)</h2>
-      <button type="button" disabled={announcingFrankenstein} onClick={handleAnnounceFrankenstein}>
-        {announcingFrankenstein ? 'Sending...' : 'Send Frankenstein lecture announcement'}
+      <h2>One-off: Nov 14 meetup announcement (The Year of Magical Thinking)</h2>
+      <button type="button" disabled={announcingDidion} onClick={handleAnnounceDidion}>
+        {announcingDidion ? 'Sending...' : 'Send Year of Magical Thinking meetup announcement'}
       </button>
-      {announceFrankensteinResult && (
+      {announceDidionResult && (
         <p style={{ fontSize: 13, marginTop: 12 }}>
-          {typeof announceFrankensteinResult === 'string'
-            ? announceFrankensteinResult
-            : `Sent: ${announceFrankensteinResult.sent}${announceFrankensteinResult.failed.length ? `, failed: ${announceFrankensteinResult.failed.join(', ')}` : ''}`}
+          {typeof announceDidionResult === 'string'
+            ? announceDidionResult
+            : `Sent: ${announceDidionResult.sent}${announceDidionResult.failed.length ? `, failed: ${announceDidionResult.failed.join(', ')}` : ''}`}
         </p>
       )}
 

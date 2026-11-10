@@ -1,29 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { sendFrankensteinAnnouncementEmail } from '@/lib/mailer';
+import { sendDidionAnnouncementEmail } from '@/lib/mailer';
 
 // One-off: sends the venue/time announcement to everyone who paid for
-// the Oct 27, 2026 Halloween lecture (Frankenstein). Safe to remove after use.
+// the Nov 14, 2026 book club meetup (The Year of Magical Thinking). Safe to remove after use.
 export async function POST(req: NextRequest) {
   const cookie = req.cookies.get('admin_auth')?.value;
   if (!cookie || cookie !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
   }
 
-  const { data: lecture, error: lectureError } = await supabaseAdmin
-    .from('lectures')
+  const { data: book, error: bookError } = await supabaseAdmin
+    .from('books')
     .select('*')
-    .eq('event_date', '2026-10-27')
+    .eq('event_date', '2026-11-14')
     .single();
 
-  if (lectureError || !lecture) {
-    return NextResponse.json({ error: 'Lecture not found' }, { status: 404 });
+  if (bookError || !book) {
+    return NextResponse.json({ error: 'Book not found' }, { status: 404 });
   }
 
   const { data: registrations, error: regError } = await supabaseAdmin
     .from('registrations')
     .select('*')
-    .eq('lecture_id', lecture.id)
+    .eq('book_id', book.id)
     .eq('status', 'paid');
 
   if (regError) {
@@ -31,12 +31,11 @@ export async function POST(req: NextRequest) {
   }
 
   const details = {
-    date: 'October 27, 2026',
-    time: '19:00',
-    venue: 'Kulturhaus Milbertshofen',
-    address: 'Curt-Mezger-Platz 1, 80809 München',
-    room: '3.11 Martina-Badhorn',
-    mapUrl: 'https://maps.app.goo.gl/hJ9k1WNb1YHRdC1m8',
+    date: 'November 14, 2026',
+    time: '14:00',
+    venue: 'Story Café',
+    address: 'Augustenstraße 29, 80333 München-Maxvorstadt',
+    mapUrl: 'https://maps.app.goo.gl/CZcGHEko9WxuCh939',
   };
 
   let sent = 0;
@@ -44,7 +43,7 @@ export async function POST(req: NextRequest) {
 
   for (const registration of registrations || []) {
     try {
-      await sendFrankensteinAnnouncementEmail(registration, lecture, details);
+      await sendDidionAnnouncementEmail(registration, book, details);
       sent++;
     } catch (err) {
       failed.push(registration.email);
